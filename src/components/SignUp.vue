@@ -1,10 +1,28 @@
 <template>
   <div class="sign-up">
-    <h3>Let's create a new account !</h3>
-    <input type="text" placeholder="Email" v-model="email"><br>
-    <input type="password" placeholder="Password" v-model="password"><br>
-    <button v-on:click="signUp">Sign Up</button>
-    <span>or go back to <router-link to="/login">login</router-link>.</span>
+    <div class="container">
+      <section>
+        <h1 class="title">Let's create a new account !</h1>
+        <b-notification v-show="error" type="is-danger">
+            {{ error }}
+        </b-notification>
+        <b-field>
+          <b-input v-model="email" placeholder="Email"></b-input>
+        </b-field>
+        <b-field>
+          <b-input type="password" v-model="password" placeholder="Password"></b-input>
+        </b-field>
+        <b-field>
+          <button class="button is-link" v-on:click="signUp">
+            <span class="icon is-small">
+              <font-awesome-icon icon="sign-in-alt"/>
+            </span>
+            <span>Sign Up</span>
+          </button>
+        </b-field>
+      </section>
+    </div>
+    <span class="go-back-message">or go back to <router-link to="/login">login</router-link>.</span>
   </div>
 </template>
 
@@ -16,7 +34,8 @@ export default {
   data: function () {
     return {
       email: ``,
-      password: ``
+      password: ``,
+      error: ``
     }
   },
   methods: {
@@ -29,7 +48,10 @@ export default {
             this.$router.replace(`hello`)
           },
           err => {
-            alert(`Oops. ${err.message}`)
+            this.error = `${err.message}`
+            setTimeout(() => {
+              this.error = ``
+            }, 3000)
           }
         )
     }
@@ -41,17 +63,7 @@ export default {
 .signUp {
   margin-top: 40px;
 }
-input {
-  margin: 10px 0;
-  with: 20px;
-  padding: 15px;
-}
-button {
-  margin-top: 20px;
-  width: 10%;
-  cursor: pointer;
-}
-span {
+.go-back-message {
   display: block;
   margin-top: 20px;
   font-size: 11px;
