@@ -4,6 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import firebase from 'firebase'
+import Buefy from 'buefy'
+import 'buefy/lib/buefy.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 Vue.config.productionTip = false
 
@@ -20,6 +25,10 @@ firebase.initializeApp(config)
 
 firebase.auth().onAuthStateChanged(user => {
   if (!app) {
+    library.add(faSignInAlt)
+
+    Vue.component('font-awesome-icon', FontAwesomeIcon)
+    Vue.use(Buefy)
     app = new Vue({
       el: '#app',
       router,
