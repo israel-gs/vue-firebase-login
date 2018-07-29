@@ -3,7 +3,7 @@
     <div class="container">
       <section>
         <h1 class="title">Sign In</h1>
-        <b-notification v-show="error" active="false" type="is-danger">
+        <b-notification v-show="error" type="is-danger">
             {{ error }}
         </b-notification>
         <b-field>
@@ -41,6 +41,7 @@ export default {
   },
   methods: {
     signIn () {
+      const loadingComponent = this.$loading.open()
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
@@ -55,6 +56,9 @@ export default {
             }, 3000)
           }
         )
+        .then(() => {
+          loadingComponent.close()
+        })
     }
   }
 }
